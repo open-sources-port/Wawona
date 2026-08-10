@@ -249,7 +249,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let dir = env::temp_dir().join(format!("wawona-test-{}-{}", std::process::id(), timestamp));
+        let dir = env::temp_dir().join(format!("muplar-wayland-test-{}-{}", std::process::id(), timestamp));
         let _ = std::fs::create_dir_all(&dir);
         dir
     }

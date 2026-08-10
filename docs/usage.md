@@ -75,7 +75,7 @@ With Wawona running, you can also run waypipe from a terminal:
 
 ```bash
 # Ensure Wawona has set up the socket
-export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
 export WAYLAND_DISPLAY="wayland-0"
 
 # Run waypipe to a remote host
@@ -104,14 +104,14 @@ When Wawona is running, clients connect via the Wayland socket.
 ### Get Socket Path
 
 In **Settings > Connection**, you'll see:
-- **XDG_RUNTIME_DIR** — e.g. `/tmp/wawona-$(id -u)`
+- **XDG_RUNTIME_DIR** — e.g. `/tmp/muplar-wayland-$(id -u)`
 - **WAYLAND_DISPLAY** — e.g. `wayland-0`
 - **Shell Setup** — copy-paste snippet for your terminal
 
 ### Run a Client
 
 ```bash
-export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
 export WAYLAND_DISPLAY="wayland-0"
 
 # Then run any Wayland client

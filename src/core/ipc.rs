@@ -65,7 +65,7 @@ impl IpcServer {
                                 let cmd = line.trim();
                                 let response = match cmd {
                                     "ping" => "pong\n".to_string(),
-                                    "version" => "wawona 0.2.0\n".to_string(),
+                                    "version" => "muplar-wayland 0.2.0\n".to_string(),
                                     "windows" => {
                                         if let Ok(state) = state.read() {
                                             let mut out = String::new();

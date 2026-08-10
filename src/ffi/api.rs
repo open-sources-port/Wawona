@@ -1,6 +1,6 @@
 //! UniFFI API Implementation
 //!
-//! This module provides the FFI boundary for the Wawona compositor.
+//! This module provides the FFI boundary for the muplar-wayland compositor.
 //! All platform-specific code (macOS, iOS, Android) interacts with the
 //! compositor through this stable API.
 //!
@@ -113,7 +113,7 @@ impl WawonaCore {
     pub fn new() -> Arc<Self> {
         crate::wlog!(
             crate::util::logging::FFI,
-            "Creating Wawona compositor (FFI)"
+            "Creating muplar-wayland compositor (FFI)"
         );
 
         Arc::new(Self {
@@ -1757,28 +1757,12 @@ fn ensure_pointer_focus(
 
     let target_sid = match target_sid {
         Some(sid) => sid,
-        None => {
-            crate::wlog!(
-                crate::util::logging::COMPOSITOR,
-                "POPUPDBG focus: window={} has NO surface (focus stays {:?})",
-                window_id.id,
-                state.seat.pointer.focus
-            );
-            return;
-        }
+        None => return,
     };
 
     if state.seat.pointer.focus == Some(target_sid) {
         return;
     }
-
-    crate::wlog!(
-        crate::util::logging::COMPOSITOR,
-        "POPUPDBG focus: window={} surf {:?} -> {}",
-        window_id.id,
-        state.seat.pointer.focus,
-        target_sid
-    );
 
     if let Some(old_sid) = state.seat.pointer.focus {
         if let Some(surface) = state.surfaces.get(&old_sid).cloned() {
@@ -2203,16 +2187,6 @@ impl WawonaCore {
             }
             _ => {}
         }
-
-        crate::wlog!(
-            crate::util::logging::COMPOSITOR,
-            "POPUPDBG button: window={} code={} state={:?} focus={:?} grabs={}",
-            window_id.id,
-            button_code,
-            wl_state,
-            state.seat.pointer.focus,
-            state.seat.popup_grab_stack.len()
-        );
 
         let focused_client = state.focused_pointer_client();
         state.seat.broadcast_pointer_button(
@@ -3374,7 +3348,7 @@ impl WawonaCore {
         let fps = self.runtime.lock().unwrap().fps();
 
         format!(
-            "Wawona Compositor Statistics\n\
+            "muplar-wayland compositor Statistics\n\
              ============================\n\
              Version: {}\n\
              Running: {}\n\
@@ -3674,7 +3648,7 @@ pub fn version() -> String {
 #[uniffi::export]
 pub fn build_info() -> String {
     format!(
-        "Wawona Compositor v{}\n\
+        "muplar-wayland compositor v{}\n\
          Built with Rust {}\n\
          Target: {}",
         env!("CARGO_PKG_VERSION"),

@@ -211,7 +211,7 @@ impl AppData {
         let stride = width * 4;
         let size = stride * height;
 
-        let tmp_path = format!("/tmp/wawona-client-shm.{}", std::process::id());
+        let tmp_path = format!("/tmp/muplar-wayland-client-shm.{}", std::process::id());
         let file = File::options().read(true).write(true).create(true).truncate(true).open(&tmp_path).expect("Failed to create SHM");
         std::fs::remove_file(&tmp_path).ok();
         file.set_len(size as u64).expect("Failed size");

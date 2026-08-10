@@ -88,7 +88,7 @@ NSString *const kWWNPrefsWestonTerminalEnabled = @"WestonTerminalEnabled";
 static NSString *WWNPreferredSharedRuntimeDir(void) {
   NSURL *groupURL = [[NSFileManager defaultManager]
       containerURLForSecurityApplicationGroupIdentifier:
-          @"group.com.aspauldingcode.Wawona"];
+          @"group.com.muplar.wayland"];
   if (groupURL) {
     return [groupURL.path stringByAppendingPathComponent:@"w"];
   }
@@ -571,7 +571,7 @@ static NSString *WWNPreferredSharedRuntimeDir(void) {
     if (envDir) {
       dir = [NSString stringWithUTF8String:envDir];
     } else {
-      dir = [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+      dir = [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
     }
   }
   return dir;
@@ -784,7 +784,7 @@ static NSString *WWNPreferredSharedRuntimeDir(void) {
       stringForKey:kWWNPrefsWaypipeSocket];
   if (!value) {
     value =
-        [NSString stringWithFormat:@"/tmp/wawona-waypipe-%d.sock", getuid()];
+        [NSString stringWithFormat:@"/tmp/muplar-wayland-waypipe-%d.sock", getuid()];
   }
   return value;
 }

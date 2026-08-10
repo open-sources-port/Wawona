@@ -10,9 +10,9 @@
       shift
     fi
 
-    APP_PATH="${systemPackages.wawona-ios-app-sim}/Wawona.app"
+    APP_PATH="${systemPackages.wawona-ios-app-sim}/muplar-wayland.app"
     if [ ! -d "$APP_PATH" ]; then
-      echo "Error: Wawona.app not found at $APP_PATH"
+      echo "Error: muplar-wayland.app not found at $APP_PATH"
       exit 1
     fi
     SIM_NAME="Wawona iOS Simulator"
@@ -42,17 +42,17 @@
     echo "Opening Simulator.app..."
     open -a "Simulator" 2>/dev/null || open -a "Simulator.app" 2>/dev/null || true
     
-    echo "Installing Wawona.app to simulator..."
-    TMP_APP_ROOT="/tmp/wawona-ios-install"
-    STAGED_APP="$TMP_APP_ROOT/Wawona.app"
+    echo "Installing muplar-wayland.app to simulator..."
+    TMP_APP_ROOT="/tmp/muplar-wayland-ios-install"
+    STAGED_APP="$TMP_APP_ROOT/muplar-wayland.app"
     rm -rf "$TMP_APP_ROOT"
     mkdir -p "$TMP_APP_ROOT"
     cp -R "$APP_PATH" "$STAGED_APP"
     chmod -R u+rwX "$TMP_APP_ROOT" || true
     if ! xcrun simctl install "$SIM_UDID" "$STAGED_APP"; then
       echo "Install failed; trying clean install and simulator reset..."
-      xcrun simctl terminate "$SIM_UDID" com.aspauldingcode.Wawona 2>/dev/null || true
-      xcrun simctl uninstall "$SIM_UDID" com.aspauldingcode.Wawona 2>/dev/null || true
+      xcrun simctl terminate "$SIM_UDID" com.muplar.wayland 2>/dev/null || true
+      xcrun simctl uninstall "$SIM_UDID" com.muplar.wayland 2>/dev/null || true
       if ! xcrun simctl install "$SIM_UDID" "$STAGED_APP"; then
         xcrun simctl shutdown "$SIM_UDID" 2>/dev/null || true
         xcrun simctl erase "$SIM_UDID" 2>/dev/null || true
@@ -64,15 +64,15 @@
 
     if [ "$DEBUG_MODE" != "true" ]; then
       echo "Launching Wawona..."
-      xcrun simctl launch "$SIM_UDID" com.aspauldingcode.Wawona "$@"
+      xcrun simctl launch "$SIM_UDID" com.muplar.wayland "$@"
       exit 0
     fi
 
-    DSYM_PATH="${systemPackages.wawona-ios-app-sim}/Wawona.app.dSYM"
+    DSYM_PATH="${systemPackages.wawona-ios-app-sim}/muplar-wayland.app.dSYM"
     echo "Launching Wawona (paused at spawn for debugger)..."
-    LAUNCH_OUTPUT=$(xcrun simctl launch --wait-for-debugger "$SIM_UDID" com.aspauldingcode.Wawona "$@")
+    LAUNCH_OUTPUT=$(xcrun simctl launch --wait-for-debugger "$SIM_UDID" com.muplar.wayland "$@")
     echo "$LAUNCH_OUTPUT"
-    PID=$(echo "$LAUNCH_OUTPUT" | awk '/com.aspauldingcode.Wawona:/ {print $NF}')
+    PID=$(echo "$LAUNCH_OUTPUT" | awk '/com.muplar.wayland:/ {print $NF}')
     if [ -z "$PID" ]; then
       echo "Error: Could not determine app PID for LLDB attach."
       exit 1
@@ -108,7 +108,7 @@
     pkg = systemPackages.weston;
     wrapper = pkgs.writeShellScriptBin "weston-run" ''
       if [ -z "$XDG_RUNTIME_DIR" ]; then
-        export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+        export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
         mkdir -p "$XDG_RUNTIME_DIR"
         chmod 700 "$XDG_RUNTIME_DIR"
       fi

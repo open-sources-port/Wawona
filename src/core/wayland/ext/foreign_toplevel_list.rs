@@ -50,7 +50,7 @@ impl GlobalDispatch<ExtForeignToplevelListV1, ()> for CompositorState {
                     handle_res.app_id(window.app_id.clone());
 
                     // Identifier is the window id as string
-                    handle_res.identifier(format!("wawona-window-{}", window_id));
+                    handle_res.identifier(format!("muplar-wayland-window-{}", window_id));
 
                     handle_res.done();
                 }

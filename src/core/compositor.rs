@@ -539,7 +539,7 @@ impl Compositor {
                     if let Ok(mut file) = std::fs::OpenOptions::new()
                         .create(true)
                         .append(true)
-                        .open("/tmp/wawona-protocol.log")
+                        .open("/tmp/muplar-wayland-protocol.log")
                     {
                         let _ = writeln!(
                             file,
@@ -831,10 +831,10 @@ impl Compositor {
             }
         }
 
-        // Create runtime directory: /tmp/wawona-<UID>
+        // Create runtime directory: /tmp/muplar-wayland-<UID>
         // Must match the macosEnv path in flake.nix and the ObjC bridge
         let uid = unsafe { libc::getuid() };
-        let runtime_dir = format!("/tmp/wawona-{}", uid);
+        let runtime_dir = format!("/tmp/muplar-wayland-{}", uid);
 
         // Create directory if it doesn't exist
         std::fs::create_dir_all(&runtime_dir)?;

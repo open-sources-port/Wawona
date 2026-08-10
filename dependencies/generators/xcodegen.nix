@@ -59,7 +59,7 @@ let
     };
     settings = {
       base = {
-        PRODUCT_NAME = "Wawona";
+        PRODUCT_NAME = "muplar-wayland";
         MARKETING_VERSION = "0.1.0";
         CURRENT_PROJECT_VERSION = "1";
         CODE_SIGN_STYLE = "Automatic";
@@ -117,7 +117,7 @@ let
           base = {
             INFOPLIST_FILE = "src/resources/app-bundle/Info.plist";
             GENERATE_INFOPLIST_FILE = "NO";
-            PRODUCT_BUNDLE_IDENTIFIER = "com.aspauldingcode.Wawona";
+            PRODUCT_BUNDLE_IDENTIFIER = "com.muplar.wayland";
             ASSETCATALOG_COMPILER_APPICON_NAME = "";
             TARGETED_DEVICE_FAMILY = "1,2";
             CODE_SIGN_STYLE = "Automatic";
@@ -217,7 +217,7 @@ let
             GCC_PREPROCESSOR_DEFINITIONS = [
               "$(inherited)"
               "TARGET_OS_IPHONE=1"
-              "PRODUCT_BUNDLE_IDENTIFIER=\\\"com.aspauldingcode.Wawona\\\""
+              "PRODUCT_BUNDLE_IDENTIFIER=\\\"com.muplar.wayland\\\""
             ] ++ versionDefs;
             "HEADER_SEARCH_PATHS[sdk=iphoneos*]" = [
               "$(inherited)"
@@ -305,7 +305,7 @@ let
           base = {
             INFOPLIST_FILE = "src/resources/app-bundle/Info.plist";
             GENERATE_INFOPLIST_FILE = "NO";
-            PRODUCT_BUNDLE_IDENTIFIER = "com.aspauldingcode.Wawona";
+            PRODUCT_BUNDLE_IDENTIFIER = "com.muplar.wayland";
             CODE_SIGN_STYLE = "Automatic";
             HEADER_SEARCH_PATHS = [
               "$(inherited)"
@@ -337,7 +337,7 @@ let
             GCC_PREPROCESSOR_DEFINITIONS = [
               "$(inherited)"
               "USE_RUST_CORE=1"
-              "PRODUCT_BUNDLE_IDENTIFIER=\\\"com.aspauldingcode.Wawona\\\""
+              "PRODUCT_BUNDLE_IDENTIFIER=\\\"com.muplar.wayland\\\""
             ] ++ versionDefs;
           };
         };

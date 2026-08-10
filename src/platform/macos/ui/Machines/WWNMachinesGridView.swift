@@ -220,7 +220,7 @@ final class WWNMachinesHostingBridge: NSObject {
       defer: false
     )
     window.contentViewController = hosting
-    window.title = "Wawona Machine Control Panel"
+    window.title = "Muplar Wayland Machine Control Panel"
     return NSWindowController(window: window)
   }
 }

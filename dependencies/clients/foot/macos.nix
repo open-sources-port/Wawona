@@ -627,7 +627,7 @@ EOF
     cat > $out/bin/foot << 'EOF'
 #!/bin/sh
 # Foot terminal wrapper for Wawona compositor
-export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp/wawona-$(id -u)}"
+export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp/muplar-wayland-$(id -u)}"
 export WAYLAND_DISPLAY="''${WAYLAND_DISPLAY:-wayland-0}"
 
 # Ensure runtime dir exists

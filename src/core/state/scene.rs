@@ -158,11 +158,6 @@ impl CompositorState {
 
     /// Dismiss the active popup grab and all its child popups
     pub fn dismiss_popup_grab(&mut self) {
-        crate::wlog!(
-            crate::util::logging::COMPOSITOR,
-            "POPUPDBG dismiss_popup_grab: draining {} popup(s)",
-            self.seat.popup_grab_stack.len()
-        );
         while let Some((cid, pid)) = self.seat.popup_grab_stack.pop() {
             if let Some(data) = self.xdg.popups.get(&(cid.clone(), pid)) {
                 let resource = data.resource.clone();

@@ -1,6 +1,6 @@
 let
   macosEnv = ''
-    export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+    export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
     export WAYLAND_DISPLAY="''${WAYLAND_DISPLAY:-wayland-0}"
     if [ ! -d "$XDG_RUNTIME_DIR" ]; then
       mkdir -p "$XDG_RUNTIME_DIR"
@@ -22,13 +22,13 @@ in rec {
 
   macosWrapper = pkgs: wawona: pkgs.writeShellScriptBin "wawona" ''
     ${macosEnv}
-    APP="${wawona}/Applications/Wawona.app"
+    APP="${wawona}/Applications/muplar-wayland.app"
     if [ "''${1:-}" = "--debug" ] || [ "''${WAWONA_LLDB:-0}" = "1" ]; then
       [ "''${1:-}" = "--debug" ] && shift
-      echo "[DEBUG] Starting Wawona under LLDB..."
-      exec ${pkgs.lldb}/bin/lldb -o run -o "bt all" -- "$APP/Contents/MacOS/Wawona" "$@"
+      echo "[DEBUG] Starting muplar-wayland under LLDB..."
+      exec ${pkgs.lldb}/bin/lldb -o run -o "bt all" -- "$APP/Contents/MacOS/muplar-wayland" "$@"
     else
-      exec "$APP/Contents/MacOS/Wawona" "$@"
+      exec "$APP/Contents/MacOS/muplar-wayland" "$@"
     fi
   '';
 
@@ -36,7 +36,7 @@ in rec {
     ${macosEnv}
     # Point Vulkan loader at KosmicKrisp ICD if available and not overridden
     if [ -z "''${VK_DRIVER_FILES:-}" ]; then
-      # Check app bundle first (when launched from Wawona.app)
+      # Check app bundle first (when launched from muplar-wayland.app)
       APP_ICD="$(dirname "$(dirname "$0")")/Resources/vulkan/icd.d/kosmickrisp_icd.json"
       if [ -f "$APP_ICD" ]; then
         export VK_DRIVER_FILES="$APP_ICD"
@@ -69,17 +69,17 @@ EOF
   '';
 
   iosWrapper = pkgs: wawona: pkgs.writeShellScriptBin "wawona-ios" ''
-    export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+    export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
     exec "${wawona}/bin/wawona-ios-simulator" "$@"
   '';
 
   androidWrapper = pkgs: wawona: pkgs.writeShellScriptBin "wawona-android" ''
-    export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+    export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
     exec "${wawona}/bin/wawona-android-run" "$@"
   '';
 
   linuxWrapper = pkgs: wawona: pkgs.writeShellScriptBin "wawona" ''
-    export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+    export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
     exec "${wawona}/bin/wawona" "$@"
   '';
 }

@@ -17,7 +17,7 @@ static NSArray<NSString *> *_blacklistedAppIds = nil;
 static void initBlacklist(void) {
   if (!_blacklistedAppIds) {
     _blacklistedAppIds = @[
-      @"com.aspauldingcode.Wawona.Launcher", @"wawona-launcher", @"launcher"
+      @"com.muplar.wayland.Launcher", @"wawona-launcher", @"launcher"
     ];
   }
 }
@@ -83,7 +83,7 @@ static BOOL isAppBlacklisted(NSString *appId, NSString *executableName) {
 
   // App group container
   NSURL *groupURL = [fm containerURLForSecurityApplicationGroupIdentifier:
-                            @"group.com.aspauldingcode.Wawona"];
+                            @"group.com.muplar.wayland"];
   if (groupURL) {
     [paths addObject:[groupURL.path
                          stringByAppendingPathComponent:@"Applications"]];
@@ -132,7 +132,7 @@ static BOOL isAppBlacklisted(NSString *appId, NSString *executableName) {
   if (runtimeDir.length == 0) {
     NSURL *groupURL = [[NSFileManager defaultManager]
         containerURLForSecurityApplicationGroupIdentifier:
-            @"group.com.aspauldingcode.Wawona"];
+            @"group.com.muplar.wayland"];
     if (groupURL) {
       runtimeDir = [groupURL.path stringByAppendingPathComponent:@"runtime"];
     } else {
@@ -141,7 +141,7 @@ static BOOL isAppBlacklisted(NSString *appId, NSString *executableName) {
   }
 #else
   if (!getenv("XDG_RUNTIME_DIR")) {
-    runtimeDir = [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+    runtimeDir = [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
   }
 #endif
 
@@ -485,7 +485,7 @@ static BOOL isAppBlacklisted(NSString *appId, NSString *executableName) {
 
     if (!runtime_dir) {
       char buf[256];
-      snprintf(buf, sizeof(buf), "/tmp/wawona-%d", getuid());
+      snprintf(buf, sizeof(buf), "/tmp/muplar-wayland-%d", getuid());
       setenv("XDG_RUNTIME_DIR", buf, 1);
     }
     if (!wayland_display) {
