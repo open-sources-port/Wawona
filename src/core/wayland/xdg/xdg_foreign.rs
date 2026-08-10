@@ -63,7 +63,7 @@ impl Dispatch<ZxdgExporterV2, ()> for CompositorState {
             zxdg_exporter_v2::Request::ExportToplevel { id, surface } => {
                 let surface_id = surface.id().protocol_id();
                 let handle = format!(
-                    "wawona-export:{:x}-{}",
+                    "muplar-wayland-export:{:x}-{}",
                     surface_id,
                     std::time::SystemTime::now()
                         .duration_since(std::time::UNIX_EPOCH)

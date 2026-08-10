@@ -42,7 +42,7 @@ impl Window {
     pub fn new(id: u32, surface_id: u32) -> Self {
         Self {
             id,
-            title: "Wawona Window".to_string(),
+            title: "Muplar Wayland Window".to_string(),
             x: 0,
             y: 0,
             width: 800,

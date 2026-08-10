@@ -288,7 +288,7 @@
          @"Full path to the Wayland socket."),
     ITEM(@"Shell Setup", @"WaylandShellSetup", WSettingInfo, envSnippet,
          @"Copy and paste into your terminal to connect "
-         @"Wayland clients to Wawona."),
+         @"Wayland clients to Muplar Wayland."),
     ITEM(@"TCP Port", @"TCPListenerPort", WSettingNumber, @6000,
          @"Port for TCP listener.")
   ];
@@ -307,12 +307,12 @@
     ITEM(@"Multiple Clients", @"MultipleClients", WSettingSwitch,
          @YES,
          @"Allow multiple Wayland clients to connect simultaneously."),
-    ITEM(@"Enable Wawona Shell", @"EnableLauncher", WSettingSwitch, @NO,
+    ITEM(@"Enable Muplar Wayland Shell", @"EnableLauncher", WSettingSwitch, @NO,
          @"Start the built-in Wayland Shell."),
     ITEM(@"Enable Weston Simple SHM", @"WestonSimpleSHMEnabled", WSettingSwitch,
          @NO, @"Start weston-simple-shm on launch."),
     ITEM(@"Enable Native Weston", @"WestonEnabled", WSettingSwitch, @NO,
-         @"Start Weston natively inside Wawona."),
+         @"Start Weston natively inside Muplar Wayland."),
     ITEM(@"Enable Weston Terminal", @"WestonTerminalEnabled", WSettingSwitch,
          @NO, @"Start Weston Terminal natively.")
   ];
@@ -507,7 +507,7 @@
   about.iconColor = [NSColor systemPurpleColor];
 
   WWNSettingItem *headerItem =
-      ITEM(@"Wawona", nil, WSettingHeader, nil,
+      ITEM(@"muplar-wayland", nil, WSettingHeader, nil,
            @"A Wayland Compositor for macOS, iOS & Android");
   headerItem.imageName = @"Wawona";
 
@@ -1278,7 +1278,7 @@
         // use SSH_ASKPASS in forced mode so ssh does not require /dev/tty.
         if (usePasswordAuth && !sshpassPath) {
           NSString *scriptName =
-              [NSString stringWithFormat:@"wawona-askpass-%@.sh",
+              [NSString stringWithFormat:@"muplar-wayland-askpass-%@.sh",
                                          [[NSUUID UUID] UUIDString]];
           askpassScriptPath = [NSTemporaryDirectory()
               stringByAppendingPathComponent:scriptName];
@@ -1293,7 +1293,7 @@
               chmod([askpassScriptPath fileSystemRepresentation], 0700) == 0) {
             env[@"SSH_ASKPASS"] = askpassScriptPath;
             env[@"SSH_ASKPASS_REQUIRE"] = @"force";
-            env[@"DISPLAY"] = env[@"DISPLAY"] ?: @"wawona-ssh-test";
+            env[@"DISPLAY"] = env[@"DISPLAY"] ?: @"muplar-wayland-ssh-test";
             env[@"WAWONA_SSH_PASSWORD"] = password ?: @"";
             WWNLog("SSH",
                    @"[SSH Test macOS] Using temporary SSH_ASKPASS helper");
@@ -1512,7 +1512,7 @@
   }
 
   dispatch_queue_t connectionQueue = dispatch_queue_create(
-      "com.aspauldingcode.wawona.sshping", DISPATCH_QUEUE_SERIAL);
+      "com.muplar.wayland.sshping", DISPATCH_QUEUE_SERIAL);
   nw_connection_set_queue(connection, connectionQueue);
 
   __block BOOL completed = NO;
@@ -1625,7 +1625,7 @@
   }
 
   dispatch_queue_t connectionQueue = dispatch_queue_create(
-      "com.aspauldingcode.wawona.ping", DISPATCH_QUEUE_SERIAL);
+      "com.muplar.wayland.ping", DISPATCH_QUEUE_SERIAL);
   nw_connection_set_queue(connection, connectionQueue);
 
   __block BOOL completed = NO;
@@ -1929,7 +1929,7 @@
                           NSWindowStyleMaskFullSizeContentView
                   backing:NSBackingStoreBuffered
                     defer:NO];
-  win.title = @"Wawona Settings";
+  win.title = @"Muplar Wayland Settings";
   win.movableByWindowBackground = YES;
 
   // Add Toolbar (Liquid Glass Style)
@@ -2910,4 +2910,3 @@
 }
 
 @end
-

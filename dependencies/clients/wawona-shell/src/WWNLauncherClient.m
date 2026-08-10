@@ -47,7 +47,7 @@ static NSMutableArray<WWNLauncherApp *> *discoveredApps = nil;
 static void initBlacklist(void) {
   if (!blacklistedAppIds) {
     blacklistedAppIds = @[
-      @"com.aspauldingcode.Wawona.Launcher", @"wawona-launcher", @"launcher"
+      @"com.muplar.wayland.Launcher", @"wawona-launcher", @"launcher"
     ];
   }
 }
@@ -296,7 +296,7 @@ BOOL launchLauncherApplication(NSString *appId) {
 
         if (!runtime_dir) {
           char buf[256];
-          snprintf(buf, sizeof(buf), "/tmp/wawona-%d", getuid());
+          snprintf(buf, sizeof(buf), "/tmp/muplar-wayland-%d", getuid());
           setenv("XDG_RUNTIME_DIR", buf, 1);
         }
         if (!wayland_display) {
@@ -819,7 +819,7 @@ static int create_shm_file(off_t size) {
   if (runtime_dir) {
     snprintf(template, sizeof(template), "%s/wawona-shm-XXXXXX", runtime_dir);
   } else {
-    snprintf(template, sizeof(template), "/tmp/wawona-shm-XXXXXX");
+    snprintf(template, sizeof(template), "/tmp/muplar-wayland-shm-XXXXXX");
   }
 
   int fd = mkstemp(template);
@@ -963,7 +963,7 @@ static void *launcherClientThread(void *arg) {
                               &state);
     xdg_toplevel_set_title(state.xdg_toplevel, "Wawona Launcher");
     xdg_toplevel_set_app_id(state.xdg_toplevel,
-                            "com.aspauldingcode.Wawona.Launcher");
+                            "com.muplar.wayland.Launcher");
 
     wl_surface_commit(state.surface);
     wl_display_roundtrip(client_display);

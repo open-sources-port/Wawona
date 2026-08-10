@@ -473,7 +473,7 @@ let
         exit 0
       fi
 
-      APP_LOG="/tmp/wawona-android.log"
+      APP_LOG="/tmp/muplar-wayland-android.log"
       rm -f "$APP_LOG"
       touch "$APP_LOG"
       adb logcat -c 2>/dev/null || true

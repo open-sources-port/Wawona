@@ -105,7 +105,7 @@
 			<key>Title</key>
 			<string>Graphics</string>
 			<key>FooterText</key>
-			<string>Driver selection takes effect after restarting Wawona.</string>
+			<string>Driver selection takes effect after restarting muplar-wayland.</string>
 		</dict>
 		<!-- Vulkan Driver -->
 		<dict>
@@ -240,7 +240,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Enable Wawona Shell</string>
+			<string>Enable Muplar Wayland Shell</string>
 			<key>Key</key>
 			<string>EnableLauncher</string>
 			<key>DefaultValue</key>
@@ -321,7 +321,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>FooterText</key>
-			<string>Password or SSH Key options are shown in the Wawona app based on your Auth Method selection.</string>
+			<string>Password or SSH Key options are shown in the muplar-wayland app based on your Auth Method selection.</string>
 		</dict>
 		
 		<!-- Waypipe Section -->

@@ -15,7 +15,7 @@
   codeSignIdentity ? null,
   signMethod ? null,
   automaticProvisioning ? false,
-  bundleId ? "com.aspauldingcode.Wawona",
+  bundleId ? "com.muplar.wayland",
   ...
 }:
 

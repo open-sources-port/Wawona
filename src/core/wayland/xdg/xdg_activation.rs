@@ -27,7 +27,7 @@ impl Default for ActivationTokenData {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let token = format!("wawona-{:x}", now);
+        let token = format!("muplar-wayland-{:x}", now);
         Self {
             token,
             app_id: None,

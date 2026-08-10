@@ -115,7 +115,7 @@ let
   # All shell variables must be escaped for Nix: use ''$VAR so the script gets literal $VAR.
   installMacOSIcons = ''
     ${xcodeEnv "macos"}
-    RESOURCES="$out/Applications/Wawona.app/Contents/Resources"
+    RESOURCES="$out/Applications/muplar-wayland.app/Contents/Resources"
     mkdir -p "''$RESOURCES"
     ICON_ROOT="src/resources"
     APPICONSET="''$ICON_ROOT/Assets.xcassets/AppIcon.appiconset"
@@ -237,7 +237,7 @@ let
   '';
 
   generateIcons = platform: ''
-    mkdir -p "$out/Applications/Wawona.app/Contents/Resources"
+    mkdir -p "$out/Applications/muplar-wayland.app/Contents/Resources"
   '';
 
 in
@@ -519,7 +519,7 @@ GEN_HEADER
          -fobjc-arc -flto -O3 \
          -ObjC \
          -Wl,-rpath,\$PWD/macos-dependencies/lib \
-         -o Wawona
+         -o muplar-wayland
 
       runHook postBuild
     '';
@@ -527,10 +527,10 @@ GEN_HEADER
     installPhase = ''
             runHook preInstall
             
-            mkdir -p $out/Applications/Wawona.app/Contents/MacOS
-            mkdir -p $out/Applications/Wawona.app/Contents/Resources
+            mkdir -p $out/Applications/muplar-wayland.app/Contents/MacOS
+            mkdir -p $out/Applications/muplar-wayland.app/Contents/Resources
             
-            cp Wawona $out/Applications/Wawona.app/Contents/MacOS/
+            cp muplar-wayland $out/Applications/muplar-wayland.app/Contents/MacOS/
 
             # Populate project output
             mkdir -p $project
@@ -543,12 +543,12 @@ GEN_HEADER
             fi
             
             if command -v codesign >/dev/null 2>&1; then
-              echo "Signing Wawona main binary..."
-              codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/MacOS/Wawona" || echo "Warning: Failed to sign Wawona main binary"
+              echo "Signing muplar-wayland main binary..."
+              codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/MacOS/muplar-wayland" || echo "Warning: Failed to sign muplar-wayland main binary"
             fi
             
             if [ -f metal_shaders.metallib ]; then
-              cp metal_shaders.metallib $out/Applications/Wawona.app/Contents/MacOS/
+              cp metal_shaders.metallib $out/Applications/muplar-wayland.app/Contents/MacOS/
             fi
             
             echo "DEBUG: Looking for sshpass binary in buildInputs..."
@@ -561,13 +561,13 @@ GEN_HEADER
             done
             
             if [ -n "$SSHPASS_BIN" ] && [ -f "$SSHPASS_BIN" ]; then
-              install -m 755 "$SSHPASS_BIN" $out/Applications/Wawona.app/Contents/MacOS/sshpass
-              mkdir -p $out/Applications/Wawona.app/Contents/Resources/bin
-              install -m 755 "$SSHPASS_BIN" $out/Applications/Wawona.app/Contents/Resources/bin/sshpass
+              install -m 755 "$SSHPASS_BIN" $out/Applications/muplar-wayland.app/Contents/MacOS/sshpass
+              mkdir -p $out/Applications/muplar-wayland.app/Contents/Resources/bin
+              install -m 755 "$SSHPASS_BIN" $out/Applications/muplar-wayland.app/Contents/Resources/bin/sshpass
               
               if command -v codesign >/dev/null 2>&1; then
-                codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/MacOS/sshpass" 2>/dev/null || echo "Warning: Failed to code sign sshpass"
-                codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/Resources/bin/sshpass" 2>/dev/null || true
+                codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/MacOS/sshpass" 2>/dev/null || echo "Warning: Failed to code sign sshpass"
+                codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/Resources/bin/sshpass" 2>/dev/null || true
               fi
             fi
             
@@ -581,32 +581,32 @@ GEN_HEADER
             done
             
             if [ -n "$WAYPIPE_BIN" ] && [ -f "$WAYPIPE_BIN" ]; then
-              mkdir -p $out/Applications/Wawona.app/Contents/Resources/bin
-              install -m 755 "$WAYPIPE_BIN" $out/Applications/Wawona.app/Contents/MacOS/waypipe
-              install -m 755 "$WAYPIPE_BIN" $out/Applications/Wawona.app/Contents/Resources/bin/waypipe
+              mkdir -p $out/Applications/muplar-wayland.app/Contents/Resources/bin
+              install -m 755 "$WAYPIPE_BIN" $out/Applications/muplar-wayland.app/Contents/MacOS/waypipe
+              install -m 755 "$WAYPIPE_BIN" $out/Applications/muplar-wayland.app/Contents/Resources/bin/waypipe
               
               if command -v codesign >/dev/null 2>&1; then
-                codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/MacOS/waypipe" 2>/dev/null || echo "Warning: Failed to code sign waypipe"
-                codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/Resources/bin/waypipe" 2>/dev/null || true
+                codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/MacOS/waypipe" 2>/dev/null || echo "Warning: Failed to code sign waypipe"
+                codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/Resources/bin/waypipe" 2>/dev/null || true
               fi
             fi
             
             # Bundle Weston clients
             echo "DEBUG: Bundling Weston clients..."
-            mkdir -p $out/Applications/Wawona.app/Contents/Resources/bin
+            mkdir -p $out/Applications/muplar-wayland.app/Contents/Resources/bin
             if [ -d "${weston}/bin" ]; then
               # Weston compositor and weston-terminal (used by Settings)
               for client in weston weston-terminal; do
                 if [ -f "${weston}/bin/$client" ]; then
-                  cp "${weston}/bin/$client" $out/Applications/Wawona.app/Contents/Resources/bin/
-                  chmod +x $out/Applications/Wawona.app/Contents/Resources/bin/$client
+                  cp "${weston}/bin/$client" $out/Applications/muplar-wayland.app/Contents/Resources/bin/
+                  chmod +x $out/Applications/muplar-wayland.app/Contents/Resources/bin/$client
                 fi
               done
               # Other useful clients
               for client in weston-simple-egl weston-simple-shm weston-flower weston-smoke weston-resizor weston-scaler; do
                  if [ -f "${weston}/bin/$client" ]; then
-                   cp "${weston}/bin/$client" $out/Applications/Wawona.app/Contents/Resources/bin/
-                   chmod +x $out/Applications/Wawona.app/Contents/Resources/bin/$client
+                   cp "${weston}/bin/$client" $out/Applications/muplar-wayland.app/Contents/Resources/bin/
+                   chmod +x $out/Applications/muplar-wayland.app/Contents/Resources/bin/$client
                  fi
               done
             else
@@ -614,12 +614,12 @@ GEN_HEADER
             fi
             
             if command -v codesign >/dev/null 2>&1; then
-                find "$out/Applications/Wawona.app/Contents/Resources/bin" -type f -perm +111 -exec codesign --force --sign - --timestamp=none {} \; 2>/dev/null || true
+                find "$out/Applications/muplar-wayland.app/Contents/Resources/bin" -type f -perm +111 -exec codesign --force --sign - --timestamp=none {} \; 2>/dev/null || true
             fi
 
             # Prepare directories for Vulkan drivers
-            mkdir -p $out/Applications/Wawona.app/Contents/Frameworks
-            mkdir -p $out/Applications/Wawona.app/Contents/Resources/vulkan/icd.d
+            mkdir -p $out/Applications/muplar-wayland.app/Contents/Frameworks
+            mkdir -p $out/Applications/muplar-wayland.app/Contents/Resources/vulkan/icd.d
 
             # Bundle MoltenVK Vulkan driver if available
             ${lib.optionalString (moltenvk != null) ''
@@ -633,7 +633,7 @@ GEN_HEADER
               done
               if [ -n "$MVK_DYLIB" ] && [ -f "$MVK_DYLIB" ]; then
                 MVK_DYLIB_NAME=$(basename "$MVK_DYLIB")
-                cp "$MVK_DYLIB" "$out/Applications/Wawona.app/Contents/Frameworks/$MVK_DYLIB_NAME"
+                cp "$MVK_DYLIB" "$out/Applications/muplar-wayland.app/Contents/Frameworks/$MVK_DYLIB_NAME"
                 # Check for existing MoltenVK ICD manifest
                 MVK_ICD=""
                 for f in ${moltenvk}/share/vulkan/icd.d/MoltenVK_icd*.json; do
@@ -643,11 +643,11 @@ GEN_HEADER
                   fi
                 done
                 if [ -n "$MVK_ICD" ]; then
-                  cp "$MVK_ICD" "$out/Applications/Wawona.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json"
+                  cp "$MVK_ICD" "$out/Applications/muplar-wayland.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json"
                   sed -i "s|\"library_path\":.*|\"library_path\": \"../../Frameworks/$MVK_DYLIB_NAME\",|" \
-                    "$out/Applications/Wawona.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json"
+                    "$out/Applications/muplar-wayland.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json"
                 else
-                  cat > "$out/Applications/Wawona.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json" <<MVK_ICD_EOF
+                  cat > "$out/Applications/muplar-wayland.app/Contents/Resources/vulkan/icd.d/MoltenVK_icd.json" <<MVK_ICD_EOF
               {
                   "file_format_version": "1.0.1",
                   "ICD": {
@@ -660,14 +660,14 @@ MVK_ICD_EOF
                 fi
                 echo "Bundled MoltenVK: $MVK_DYLIB_NAME"
                 if command -v codesign >/dev/null 2>&1; then
-                  codesign --force --sign - --timestamp=none "$out/Applications/Wawona.app/Contents/Frameworks/$MVK_DYLIB_NAME" 2>/dev/null || echo "Warning: Failed to sign MoltenVK dylib"
+                  codesign --force --sign - --timestamp=none "$out/Applications/muplar-wayland.app/Contents/Frameworks/$MVK_DYLIB_NAME" 2>/dev/null || echo "Warning: Failed to sign MoltenVK dylib"
                 fi
               else
                 echo "Info: MoltenVK .dylib not found, skipping"
               fi
             ''}
             
-            cat > $out/Applications/Wawona.app/Contents/Info.plist <<'PLIST_EOF'
+            cat > $out/Applications/muplar-wayland.app/Contents/Info.plist <<'PLIST_EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -675,13 +675,13 @@ MVK_ICD_EOF
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleExecutable</key>
-    <string>Wawona</string>
+    <string>muplar-wayland</string>
     <key>CFBundleIdentifier</key>
-    <string>com.aspauldingcode.Wawona</string>
+    <string>com.muplar.wayland</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Wawona</string>
+    <string>muplar-wayland</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -699,7 +699,7 @@ MVK_ICD_EOF
         <key>CFBundlePrimaryIcon</key>
         <dict>
             <key>CFBundleIconName</key>
-            <string>Wawona</string>
+            <string>muplar-wayland</string>
         </dict>
     </dict>
     <key>CFBundleIconName</key>
@@ -707,7 +707,7 @@ MVK_ICD_EOF
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>NSLocalNetworkUsageDescription</key>
-    <string>Wawona needs access to your local network to connect to SSH hosts.</string>
+    <string>muplar-wayland needs access to your local network to connect to SSH hosts.</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>
@@ -726,7 +726,7 @@ PLIST_EOF
 
     postInstall = ''
       mkdir -p $out/bin
-      ln -s $out/Applications/Wawona.app/Contents/MacOS/Wawona $out/bin/Wawona
-      ln -s $out/Applications/Wawona.app/Contents/MacOS/Wawona $out/bin/wawona-macos
+      ln -s $out/Applications/muplar-wayland.app/Contents/MacOS/muplar-wayland $out/bin/muplar-wayland
+      ln -s $out/Applications/muplar-wayland.app/Contents/MacOS/muplar-wayland $out/bin/wawona-macos
     '';
   }

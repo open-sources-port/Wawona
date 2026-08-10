@@ -24,11 +24,6 @@ impl Dispatch<xdg_popup::XdgPopup, u32> for CompositorState {
         match request {
             xdg_popup::Request::Destroy => {
                 tracing::debug!("xdg_popup destroyed: {}", popup_id);
-                crate::wlog!(
-                    crate::util::logging::COMPOSITOR,
-                    "POPUPDBG client destroyed popup {}",
-                    popup_id
-                );
                 if let Some(data) = state.xdg.popups.remove(&(client_id.clone(), popup_id)) {
                     // Clean up surface_to_window mapping
                     state.surface_to_window.remove(&data.surface_id);
@@ -47,14 +42,8 @@ impl Dispatch<xdg_popup::XdgPopup, u32> for CompositorState {
                     );
                 }
             }
-            xdg_popup::Request::Grab { seat: _, serial } => {
+            xdg_popup::Request::Grab { seat: _, serial: _ } => {
                 tracing::debug!("xdg_popup.grab requested for popup {}", popup_id);
-                crate::wlog!(
-                    crate::util::logging::COMPOSITOR,
-                    "POPUPDBG grab requested popup={} serial={}",
-                    popup_id,
-                    serial
-                );
                 if let Some(data) = state.xdg.popups.get_mut(&(client_id.clone(), popup_id)) {
                     data.grabbed = true;
                     // Push to grab stack

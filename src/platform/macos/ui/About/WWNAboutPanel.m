@@ -23,7 +23,7 @@
                           NSWindowStyleMaskFullSizeContentView
                   backing:NSBackingStoreBuffered
                     defer:NO];
-  [window setTitle:@"About Wawona"];
+  [window setTitle:@"About Muplar Wayland"];
   [window center];
   [window setLevel:NSFloatingWindowLevel];
   [window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
@@ -104,7 +104,7 @@
 
   // App Name
   NSTextField *title = [[NSTextField alloc] init];
-  title.stringValue = @"Wawona";
+  title.stringValue = @"muplar-wayland";
   title.font = [NSFont systemFontOfSize:42 weight:NSFontWeightBold];
   title.alignment = NSTextAlignmentCenter;
   title.bezeled = NO;
@@ -227,7 +227,7 @@
   [stack addArrangedSubview:[self createSeparator]];
 
   NSTextField *supportLabel = [[NSTextField alloc] init];
-  supportLabel.stringValue = @"Love Wawona? ❤️ Support development!";
+  supportLabel.stringValue = @"Love Muplar Wayland? Support development!";
   supportLabel.font = [NSFont systemFontOfSize:14 weight:NSFontWeightMedium];
   supportLabel.textColor = [NSColor labelColor];
   supportLabel.alignment = NSTextAlignmentCenter;

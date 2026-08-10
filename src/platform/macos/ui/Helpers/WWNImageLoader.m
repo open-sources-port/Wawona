@@ -22,7 +22,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
                                                          NSUserDomainMask, YES);
     NSString *baseCache = [paths firstObject];
-    _cachePath = [baseCache stringByAppendingPathComponent:@"Wawona/Images"];
+    _cachePath = [baseCache stringByAppendingPathComponent:@"Muplar Wayland/Images"];
 
     NSError *error = nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:_cachePath
@@ -90,7 +90,7 @@
 
   // Download
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  [request setValue:@"Wawona-App/1.0" forHTTPHeaderField:@"User-Agent"];
+  [request setValue:@"Muplar-Wayland-App/1.0" forHTTPHeaderField:@"User-Agent"];
 
   NSURLSessionDataTask *task = [[NSURLSession sharedSession]
       dataTaskWithRequest:request

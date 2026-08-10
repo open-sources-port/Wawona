@@ -358,7 +358,7 @@ extern int weston_terminal_main(int argc, char **argv);
     [candidateDirs addObject:prefs.waylandSocketDir];
   }
   [candidateDirs
-      addObject:[NSString stringWithFormat:@"/tmp/wawona-%d", getuid()]];
+      addObject:[NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()]];
 
   NSMutableOrderedSet<NSString *> *uniqueDirs =
       [NSMutableOrderedSet orderedSetWithArray:candidateDirs];
@@ -491,7 +491,7 @@ extern int weston_terminal_main(int argc, char **argv);
   }
 
   if (!socketDirTask || socketDirTask.length == 0) {
-    socketDirTask = [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+    socketDirTask = [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
     WWNLog("WAYPIPE", @"waylandSocketDir was empty, using default: %@",
            socketDirTask);
   }
@@ -514,7 +514,7 @@ extern int weston_terminal_main(int argc, char **argv);
       [socketDirTask stringByAppendingPathComponent:displayNameTask];
   if (![[NSFileManager defaultManager] fileExistsAtPath:configuredSocketPath]) {
     NSString *runtimeFallback =
-        [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+        [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
     NSString *fallbackSocketPath =
         [runtimeFallback stringByAppendingPathComponent:displayNameTask];
     if ([[NSFileManager defaultManager] fileExistsAtPath:fallbackSocketPath]) {
@@ -526,12 +526,12 @@ extern int weston_terminal_main(int argc, char **argv);
 
   WWNLog("WAYPIPE",
          @"Setting environment: XDG_RUNTIME_DIR=%@, "
-         @"WAYLAND_DISPLAY=%@, XDG_CURRENT_DESKTOP=Wawona",
+         @"WAYLAND_DISPLAY=%@, XDG_CURRENT_DESKTOP=muplar-wayland",
          socketDirTask, displayNameTask);
 
   env[@"XDG_RUNTIME_DIR"] = socketDirTask;
   env[@"WAYLAND_DISPLAY"] = displayNameTask;
-  env[@"XDG_CURRENT_DESKTOP"] = @"Wawona";
+  env[@"XDG_CURRENT_DESKTOP"] = @"muplar-wayland";
 
   // Sanitize PATH to ensure /usr/bin is available for ssh
   NSString *currentPath = env[@"PATH"] ?: @"/usr/bin:/bin:/usr/sbin:/sbin";
@@ -546,7 +546,7 @@ extern int weston_terminal_main(int argc, char **argv);
     // Password auth fallback without sshpass: force SSH_ASKPASS so ssh does
     // not require /dev/tty (non-interactive app launch context).
     NSString *scriptName =
-        [NSString stringWithFormat:@"wawona-waypipe-askpass-%@.sh",
+        [NSString stringWithFormat:@"muplar-wayland-waypipe-askpass-%@.sh",
                                    [[NSUUID UUID] UUIDString]];
     askpassScriptPath =
         [NSTemporaryDirectory() stringByAppendingPathComponent:scriptName];
@@ -561,7 +561,7 @@ extern int weston_terminal_main(int argc, char **argv);
         chmod([askpassScriptPath fileSystemRepresentation], 0700) == 0) {
       env[@"SSH_ASKPASS"] = askpassScriptPath;
       env[@"SSH_ASKPASS_REQUIRE"] = @"force";
-      env[@"DISPLAY"] = env[@"DISPLAY"] ?: @"wawona-waypipe";
+      env[@"DISPLAY"] = env[@"DISPLAY"] ?: @"muplar-wayland-waypipe";
       env[@"WAWONA_SSH_PASSWORD"] = targetPass;
       WWNLog("WAYPIPE", @"Using temporary SSH_ASKPASS helper");
     } else {
@@ -748,7 +748,7 @@ extern int weston_terminal_main(int argc, char **argv);
   const char *envRuntime = getenv("XDG_RUNTIME_DIR");
   if (!envRuntime) {
     NSString *runtimeFallback =
-        [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+        [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
     env[@"XDG_RUNTIME_DIR"] = runtimeFallback;
   }
   task.environment = env;
@@ -822,7 +822,7 @@ extern int weston_terminal_main(int argc, char **argv);
   const char *envRuntime = getenv("XDG_RUNTIME_DIR");
   if (!envRuntime) {
     env[@"XDG_RUNTIME_DIR"] =
-        [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+        [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
   }
   task.environment = env;
   NSError *err;
@@ -877,7 +877,7 @@ extern int weston_terminal_main(int argc, char **argv);
   // OSC 0 title updates on every prompt, making cd/pwd visible in the
   // window title.
   NSString *zdotdir =
-      [NSTemporaryDirectory() stringByAppendingPathComponent:@"wawona-zdotdir"];
+      [NSTemporaryDirectory() stringByAppendingPathComponent:@"muplar-wayland-zdotdir"];
   NSFileManager *fm = [NSFileManager defaultManager];
   [fm createDirectoryAtPath:zdotdir
       withIntermediateDirectories:YES
@@ -914,7 +914,7 @@ extern int weston_terminal_main(int argc, char **argv);
   const char *envRuntime = getenv("XDG_RUNTIME_DIR");
   if (!envRuntime) {
     env[@"XDG_RUNTIME_DIR"] =
-        [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+        [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
   }
 
   // Preserve original ZDOTDIR for the .zshenv/.zshrc wrappers

@@ -50,6 +50,22 @@ extern volatile pid_t g_active_waypipe_pgid;
 // Global cleanup for atexit
 static int g_instance_lock_fd = -1;
 
+static void redirect_log_if_requested(void) {
+  static dispatch_once_t once;
+  dispatch_once(&once, ^{
+    const char *path = getenv("MUPLAR_WAYLAND_LOG_FILE");
+    if (!path || !path[0])
+      path = getenv("WAWONA_LOG_FILE");
+    if (!path || !path[0])
+      return;
+    FILE *f = freopen(path, "a", stderr);
+    if (!f)
+      return;
+    setvbuf(stderr, NULL, _IOLBF, 0);
+    WWNLog("MAIN", @"log redirected to %s (pid %d)", path, (int)getpid());
+  });
+}
+
 static void release_instance_lock(void) {
   if (g_instance_lock_fd >= 0) {
     flock(g_instance_lock_fd, LOCK_UN);
@@ -61,7 +77,7 @@ static void release_instance_lock(void) {
 static void activate_existing_instance(void) {
   NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
   if (!bundleID || bundleID.length == 0) {
-    bundleID = @"com.aspauldingcode.Wawona";
+    bundleID = @"com.muplar.wayland";
   }
   pid_t currentPID = [[NSProcessInfo processInfo] processIdentifier];
   NSArray<NSRunningApplication *> *runningApps =
@@ -75,7 +91,7 @@ static void activate_existing_instance(void) {
 }
 
 static BOOL acquire_single_instance_lock(void) {
-  NSString *lockDir = [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+  NSString *lockDir = [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
   [[NSFileManager defaultManager] createDirectoryAtPath:lockDir
                             withIntermediateDirectories:YES
                                              attributes:@{
@@ -161,7 +177,7 @@ static void setup_signal_sources(void) {
   if (![prefs hasSeenWelcome]) {
     [NSApp activateIgnoringOtherApps:YES];
     NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = @"Welcome to Wawona";
+    alert.messageText = @"Welcome to Muplar Wayland";
     alert.informativeText =
         @"A clean Wayland compositor experience for macOS, iOS, and Android.";
     [alert addButtonWithTitle:@"Continue"];
@@ -205,23 +221,25 @@ static void setup_signal_sources(void) {
 
 int main(int argc, char *argv[]) {
   @autoreleasepool {
-    // Overwrite argv[0] so macOS menu bar shows "Wawona" instead of the binary
+    redirect_log_if_requested();
+
+    // Overwrite argv[0] so macOS menu bar shows "muplar-wayland" instead of the binary
     // name
-    const char *desiredName = "Wawona";
+    const char *desiredName = "muplar-wayland";
     size_t maxLen = strlen(argv[0]);
     memset(argv[0], 0, maxLen);
     strncpy(argv[0], desiredName, maxLen);
 
-    [[NSProcessInfo processInfo] setProcessName:@"Wawona"];
+    [[NSProcessInfo processInfo] setProcessName:@"muplar-wayland"];
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
 
     for (int i = 1; i < argc; i++) {
       if (strcmp(argv[i], "--version") == 0 || strcmp(argv[i], "-v") == 0) {
 #ifdef WAWONA_VERSION
-        printf("Wawona v%s\n", WAWONA_VERSION);
+        printf("muplar-wayland v%s\n", WAWONA_VERSION);
 #else
-        printf("Wawona unknown\n");
+        printf("muplar-wayland unknown\n");
 #endif
         return 0;
       }
@@ -230,7 +248,7 @@ int main(int argc, char *argv[]) {
     WWNLog("MAIN", @"WWN - Wayland Compositor for macOS");
 
     if (!acquire_single_instance_lock()) {
-      WWNLog("MAIN", @"Another Wawona instance is already running; exiting.");
+      WWNLog("MAIN", @"Another muplar-wayland instance is already running; exiting.");
       activate_existing_instance();
       return 0;
     }
@@ -349,7 +367,7 @@ int main(int argc, char *argv[]) {
     if (runtime_dir) {
       runtimePath = [NSString stringWithUTF8String:runtime_dir];
     } else {
-      runtimePath = [NSString stringWithFormat:@"/tmp/wawona-%d", getuid()];
+      runtimePath = [NSString stringWithFormat:@"/tmp/muplar-wayland-%d", getuid()];
       setenv("XDG_RUNTIME_DIR", [runtimePath UTF8String], 1);
     }
 
@@ -437,4 +455,3 @@ int main(int argc, char *argv[]) {
   }
   return 0;
 }
-

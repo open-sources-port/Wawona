@@ -290,7 +290,7 @@ extern void WWNRenderSceneFree(CRenderScene *scene);
     // keeping the main thread free for UI.
     dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(
         DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
-    _compositorQueue = dispatch_queue_create("com.wawona.compositor", attr);
+    _compositorQueue = dispatch_queue_create("com.muplar.wayland.compositor", attr);
 
     WWNLog("BRIDGE", @"WWNCore created successfully via C API!");
     _windows = [NSMutableDictionary dictionary];
@@ -316,14 +316,14 @@ extern void WWNRenderSceneFree(CRenderScene *scene);
 
 - (void)_setupRuntimeEnvironmentWithSocketName:(NSString *)socketName {
   // 1. Set XDG_RUNTIME_DIR to a well-known, stable directory
-  // On macOS, use /tmp/wawona-<uid> so clients in other terminals can find it.
+  // On macOS, use /tmp/muplar-wayland-<uid> so clients in other terminals can find it.
   // On iOS, use NSTemporaryDirectory() (sandboxed).
   NSString *runtimeDir;
 
-  // macOS: use /tmp/wawona-<uid> matching the client wrapper scripts in
+  // macOS: use /tmp/muplar-wayland-<uid> matching the client wrapper scripts in
   // flake.nix
   uid_t uid = getuid();
-  runtimeDir = [NSString stringWithFormat:@"/tmp/wawona-%u", uid];
+  runtimeDir = [NSString stringWithFormat:@"/tmp/muplar-wayland-%u", uid];
 
   // Ensure it exists with restricted permissions
   NSFileManager *fm = [NSFileManager defaultManager];
@@ -2226,20 +2226,22 @@ extern void WWNWindowInfoFree(CWindowInfo *info);
 #ifdef __cplusplus
 extern "C" {
 #endif
-  /* Send the compositor's diagnostics to the file named by WAWONA_LOG_FILE.
+  /* Send the compositor's diagnostics to the requested log file.
    *
    * Both wlog! and WWNLog write to stderr, which goes nowhere reachable when
    * the instance manager is launched the normal way: it is not in the unified
    * log, and starting the bundle binary from a terminal to watch stderr hangs.
    * Redirecting the stream itself captures every existing call site without
-   * touching any of them. Set the variable with `launchctl setenv` so a
-   * normally-launched app inherits it; unset it and the compositor logs exactly
-   * as before.
+   * touching any of them. Set MUPLAR_WAYLAND_LOG_FILE with `launchctl setenv`
+   * so a normally-launched app inherits it. WAWONA_LOG_FILE remains supported
+   * for existing developer workflows.
    */
   static void wwn_redirect_log_if_requested(void) {
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-      const char *path = getenv("WAWONA_LOG_FILE");
+      const char *path = getenv("MUPLAR_WAYLAND_LOG_FILE");
+      if (!path || !path[0])
+        path = getenv("WAWONA_LOG_FILE");
       if (!path || !path[0])
         return;
       FILE *f = freopen(path, "a", stderr);

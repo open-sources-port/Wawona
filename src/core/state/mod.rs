@@ -698,7 +698,7 @@ impl OutputState {
             id,
             name: name.clone(),
             description: format!("Virtual Display {}", name),
-            make: "Wawona".to_string(),
+            make: "Muplar Wayland".to_string(),
             model: "Virtual".to_string(),
             serial_number: format!("WAW-{}", id),
             x: 0,

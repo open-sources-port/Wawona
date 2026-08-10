@@ -437,7 +437,7 @@
           wawona-ios-simulator = apple.simulateApp {
             name = "wawona-ios-simulator";
             app = wawona-ios-app-sim;
-            bundleId = "com.aspauldingcode.Wawona";
+            bundleId = "com.muplar.wayland";
           };
         in {
           wawona-macos = wawona-macos;
@@ -488,7 +488,7 @@
         vulkan-cts-android = { type = "app"; program = "${systemPackages.vulkan-cts-android}/bin/vulkan-cts-android-run"; };
         gl-cts-android = { type = "app"; program = "${systemPackages.gl-cts-android}/bin/gl-cts-android-run"; };
       } // (pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-        wawona-macos = { type = "app"; program = "${systemPackages.wawona-macos}/bin/wawona"; };
+        wawona-macos = { type = "app"; program = "${systemPackages.wawona-macos}/bin/muplar-wayland"; };
         wawona-macos-project = { type = "app"; program = "${systemPackages.wawona-macos-project}/bin/xcodegen"; };
         wawona-ios = { type = "app"; program = appPrograms.wawonaIos; };
         wawona-ios-project = { type = "app"; program = "${systemPackages.wawona-ios-project}/bin/xcodegen"; };
@@ -508,7 +508,7 @@
         nativeBuildInputs = [ pkgs.pkg-config ];
         buildInputs = [ pkgs.nix-output-monitor pkgs.rustToolchain pkgs.libxkbcommon pkgs.libffi pkgs.wayland-protocols pkgs.openssl ]
           ++ [ apple.ensureIosSimSDK apple.findXcodeScript ];
-        shellHook = "export XDG_RUNTIME_DIR=\"/tmp/wawona-$(id -u)\"; export WAYLAND_DISPLAY=\"wayland-0\"; alias nb='nom build'; alias nd='nom develop';";
+        shellHook = "export XDG_RUNTIME_DIR=\"/tmp/muplar-wayland-$(id -u)\"; export WAYLAND_DISPLAY=\"wayland-0\"; alias nb='nom build'; alias nd='nom develop';";
       }) else (pkgs.mkShell {
         buildInputs = [ pkgs.hello pkgs.nix-output-monitor ];
         shellHook = "alias nb='nom build'; alias nd='nom develop';";

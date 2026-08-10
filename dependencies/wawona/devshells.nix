@@ -39,7 +39,7 @@ builtins.listToAttrs (map (system: let
 
     # Read TEAM_ID from .envrc if it exists, otherwise use default
     shellHook = ''
-      export XDG_RUNTIME_DIR="/tmp/wawona-$(id -u)"
+      export XDG_RUNTIME_DIR="/tmp/muplar-wayland-$(id -u)"
       export WAYLAND_DISPLAY="wayland-0"
       mkdir -p $XDG_RUNTIME_DIR
       chmod 700 $XDG_RUNTIME_DIR
